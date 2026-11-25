@@ -18,9 +18,11 @@ test-results/
 .claude/settings.local.json
 
 # Test-run logs (redirect captured runs into run-logs/, never the repo root)
-run-logs/*
-!run-logs/.gitkeep
+run-logs/
 .run-*.log
+
+# Generated reports and study notes: kept locally, never published
+docs/
 
 # Environment (secrets / local overrides)
 .env

@@ -120,10 +120,6 @@ docker run --rm -v "$(pwd)/playwright-report:/usr/src/app/playwright-report" dem
 - `Pipeline/Jenkinsfile.nightly.groovy` is a second job: runs every night at about 02:00 Dhaka time, keeps 14 builds,
   and takes parameters for manual runs (`TEST_LAYER`, `GREP`, `BASE_URL`). Click *Build Now* once after creating
   the job so Jenkins registers the schedule and parameters.
-- **Both pipelines explained** block by block (what, why, how, alternatives): `docs/Jenkins-Pipelines-Explained.html`.
-- **Questions and answers** from the project hand-over: `docs/Q-and-A.html`.
-- **Setting up your own server:** `docs/CICD-Learning-Route-Oracle-Cloud-Docker-Jenkins.html` walks through a free
-  Oracle Cloud VM, Docker and Jenkins, ending with this pipeline running on it.
 
 ## 7. AI-assisted workflow (Claude Code)
 
@@ -136,7 +132,7 @@ docker run --rm -v "$(pwd)/playwright-report:/usr/src/app/playwright-report" dem
 | `.claude/agents/` | test-planner, test-generator, test-healer, api-client-writer, pom-writer, spec-writer, test-reviewer |
 | `.claude/skills/` | `/automate-scenario`, `/make-doc`, `/make-doc-html` |
 | `.mcp.json` | Playwright test MCP server for live browser exploration |
-| `docs/` | the full-suite report and the Claude session index |
+| `docs/` | generated reports and study notes. **Local only** (gitignored), not published |
 
 ## 8. Architecture
 
