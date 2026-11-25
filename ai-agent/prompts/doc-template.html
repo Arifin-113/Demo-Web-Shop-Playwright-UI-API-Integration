@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<!--
+  Approved report template for /make-doc and /make-doc-html.
+  The <style> block is copied VERBATIM from the owner-approved report design.
+  Do not edit it per report.
+  Replace every {{PLACEHOLDER}} and delete these comments. See ai-agent/prompts/doc-rollout.md.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>{{FEATURE}} — UI + API Automation Report ({{MONTH}})</title>
+<style>
+  :root{
+    --bg:#0f172a; --panel:#ffffff; --ink:#1e293b; --muted:#64748b; --line:#e2e8f0;
+    --brand:#2563eb; --ok:#16a34a; --warn:#d97706; --bad:#dc2626; --soft:#f1f5f9;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:var(--ink);background:#f8fafc;line-height:1.55}
+  header{background:linear-gradient(135deg,#065f46,#0d9488);color:#fff;padding:36px 28px}
+  header h1{margin:0 0 6px;font-size:26px}
+  header p{margin:0;opacity:.92;font-size:14px}
+  main{max-width:1040px;margin:0 auto;padding:26px 20px 60px}
+  section{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:20px 24px;margin:18px 0;box-shadow:0 1px 2px rgba(15,23,42,.04)}
+  h2{font-size:19px;margin:2px 0 14px;color:#0f172a;border-bottom:2px solid var(--soft);padding-bottom:8px}
+  h3{font-size:15px;margin:18px 0 8px;color:#334155}
+  h4{font-size:13.5px;margin:14px 0 6px;color:#475569}
+  p,li{font-size:14px}
+  code{background:var(--soft);padding:2px 6px;border-radius:5px;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:12.5px}
+  header code{background:rgba(255,255,255,.18);color:#fff;border:1px solid rgba(255,255,255,.28)}
+  header .resume{display:block;margin-top:14px;background:rgba(15,23,42,.28);border:1px solid rgba(255,255,255,.25);border-radius:8px;padding:10px 12px}
+  header .resume code{background:transparent;border:0;color:#fff;font-size:13px;word-break:break-all}
+  pre{background:#0f172a;color:#e2e8f0;padding:14px 16px;border-radius:8px;overflow:auto;font-size:12.5px;line-height:1.5}
+  pre code{background:none;padding:0;color:inherit}
+  .tablewrap{overflow-x:auto}
+  table{border-collapse:collapse;width:100%;margin:10px 0;font-size:13.5px}
+  th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+  th{background:var(--soft);font-weight:600}
+  .tag{display:inline-block;font-size:11px;font-weight:600;padding:2px 8px;border-radius:999px;white-space:nowrap}
+  .auto{background:#dcfce7;color:#166534}
+  .plan{background:#fef3c7;color:#92400e}
+  .both{background:#ede9fe;color:#5b21b6}
+  .rc{background:#fee2e2;color:#991b1b}
+  .pass{color:var(--ok);font-weight:700}
+  .fail{color:var(--bad);font-weight:700}
+  .note{border-left:4px solid var(--warn);background:#fffbeb;padding:10px 14px;border-radius:0 8px 8px 0;font-size:13.5px;margin:10px 0}
+  .ok-note{border-left:4px solid var(--ok);background:#f0fdf4}
+  .bad-note{border-left:4px solid var(--bad);background:#fef2f2}
+  .muted{color:var(--muted)}
+  .kpis{display:flex;flex-wrap:wrap;gap:12px;margin-top:14px}
+  .kpi{flex:1;min-width:140px;border:1px solid var(--line);border-radius:10px;padding:12px 14px;background:#ecfdf5}
+  .kpi .n{font-size:22px;font-weight:800;color:#0d9488}
+  .kpi .l{font-size:12px;color:var(--muted)}
+  .rccard{border:1px solid var(--line);border-radius:10px;padding:4px 16px 12px;margin:14px 0;background:#fcfcfd}
+  .rccard h3{margin-top:14px}
+  .ev{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:12.5px;word-break:break-word}
+  dl.why{margin:8px 0 0}
+  dl.why dt{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:12.5px;font-weight:700;color:#0f766e;margin-top:10px}
+  dl.why dd{margin:3px 0 0 0;font-size:13.5px}
+  .ways{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0}
+  @media (max-width:700px){.ways{grid-template-columns:1fr}}
+  .way{border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:#fcfcfd;min-width:0}
+  .way h5{margin:0 0 6px;font-size:12.5px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
+  .way.pick{border-color:#0d9488;background:#f0fdfa}
+  .way.pick h5{color:#0f766e}
+  .way pre{margin:0;font-size:12px}
+  .tiny{border-left:4px solid var(--brand);background:#eff6ff;border-radius:0 8px 8px 0;padding:10px 14px;margin:12px 0}
+  .tiny .lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--brand);display:block;margin-bottom:6px}
+  .tiny pre{margin:6px 0 0}
+  @media (prefers-color-scheme: dark){
+    body{background:#0b1220;color:#e2e8f0}
+    section,.rccard,.kpi{background:#111a2e;border-color:#243049}
+    .kpi{background:#0f2420}
+    h2{color:#f1f5f9;border-bottom-color:#243049}
+    h3,h4{color:#cbd5e1}
+    th{background:#1a2440}
+    th,td{border-color:#243049}
+    code{background:#1a2440;color:#e2e8f0}
+    .note{background:#2a2210}
+    .ok-note{background:#0f2417}
+    .bad-note{background:#2a1416}
+    .muted{color:#94a3b8}
+    dl.why dt{color:#5eead4}
+    .way{background:#0f1729;border-color:#243049}
+    .way.pick{background:#0f2420;border-color:#0d9488}
+    .way.pick h5{color:#5eead4}
+    .tiny{background:#0f1b2e}
+    .tiny .lbl{color:#7dd3fc}
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>{{FEATURE}} — UI + API Automation Report</h1>
+  <p>{{MONTH}} &middot; <code>{{LAYERS}}</code> &middot; <code>{{SPECS}}</code></p>
+  <p class="resume"><strong>Resume this Claude Code session:</strong> <code>claude --resume {{SESSION_ID}}</code></p>
+  <div class="kpis">
+    <div class="kpi"><div class="n">{{GREEN}} / {{TOTAL}}</div><div class="l">tests automated &amp; green</div></div>
+    <div class="kpi"><div class="n">{{FILES}}</div><div class="l">spec files</div></div>
+    <div class="kpi"><div class="n">{{DEFECTS}}</div><div class="l">DEFECT-n asserted</div></div>
+    <div class="kpi"><div class="n">{{ROOT_CAUSES}}</div><div class="l">ROOT-CAUSE-n documented</div></div>
+    <div class="kpi"><div class="n">{{RUNTIME}}</div><div class="l">run time</div></div>
+  </div>
+</header>
+
+<main>
+
+<section>
+  <h2>0. How to read this doc</h2>
+  <ul>
+    <li><span class="tag plan">DEFECT-n</span> <strong>product finding</strong>: the live site disagrees with its documented / expected contract. Send to developers.</li>
+    <li><span class="tag rc">ROOT-CAUSE-n</span> <strong>automation-side</strong>: shared public instance, slow endpoints, framework behaviour. Not a bug to file.</li>
+    <li><span class="tag both">OPEN-QUESTION-n</span> observed but not yet classified. Never reported until concluded.</li>
+    <li><code>Expected (contract):</code> comes from the API docs or REST convention. <code>Actual (live):</code> is the status and body <em>seen on the live site (HTTP response or UI)</em> during the green run.</li>
+    <li><strong>§8 and §9 are the teaching half</strong>, written for someone starting from zero. §8 walks the framework (env → API clients → page objects → fixtures → data → utils); §9 walks the specs, layer by layer.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>1. Scope</h2>
+  <div class="tablewrap"><table>
+    <tr><th>Layer / area</th><th>Tests</th><th>Spec</th><th>Status</th></tr>
+    <tr><td><code>{{layer / area}}</code></td><td>{{n}}</td><td><code>{{spec}}</code></td><td><span class="tag auto">Automated</span></td></tr>
+  </table></div>
+</section>
+
+<section>
+  <h2>2. How to run</h2>
+  <pre><code>{{RUN_COMMAND}}</code></pre>
+</section>
+
+<section>
+  <h2>3. Suite structure, and why</h2>
+</section>
+
+<section>
+  <h2>4. Evidence per case</h2>
+  <div class="tablewrap"><table>
+    <tr><th>Test</th><th>Expected (contract)</th><th>Actual (live)</th><th>Verdict</th></tr>
+    <tr><td>{{title}}</td><td>{{expected}}</td><td class="ev">{{status + body excerpt}}</td><td class="pass">PASS</td></tr>
+  </table></div>
+</section>
+
+<section>
+  <h2>5. Findings</h2>
+  <div class="rccard">
+    <h3><span class="tag plan">DEFECT-n</span> {{title}}</h3>
+    <p><strong>Expected:</strong> … <br><strong>Actual:</strong> … <br><strong>Impact:</strong> …</p>
+    <pre><code>{{curl reproduction + real response}}</code></pre>
+  </div>
+</section>
+
+<section>
+  <h2>6. Corrections log</h2>
+</section>
+
+<section>
+  <h2>7. Open follow-ups</h2>
+</section>
+
+<section>
+  <h2>8. Code walkthrough (1 of 2) — the framework</h2>
+  <!-- glossary · JavaScript patterns (Way-1 / Way-2) · env.js · playwright.config.js · Base_Api + *_Api.js · Base_Page + *_Page.js · fixtures.js (the session bridge) · products.js / users.js · html.js / logger.js -->
+  <div class="ways">
+    <div class="way"><h5>Way 1 — without</h5><pre><code>…</code></pre></div>
+    <div class="way pick"><h5>Way 2 — what this file uses</h5><pre><code>…</code></pre></div>
+  </div>
+  <div class="tiny"><span class="lbl">Tiny neutral example</span><pre><code>…</code></pre></div>
+  <dl class="why">
+    <dt>{{code fragment}}</dt><dd>{{why it exists}}</dd>
+  </dl>
+  <div class="note ok-note"><strong>When to use what · how · why</strong>
+    <div class="tablewrap"><table><tr><th>Situation</th><th>Use (how)</th><th>Why</th></tr></table></div>
+    <p><strong>Don't use when:</strong> …</p>
+  </div>
+</section>
+
+<section>
+  <h2>9. Code walkthrough (2 of 2) — the spec</h2>
+</section>
+
+<section>
+  <h2>10. Complete code reference</h2>
+</section>
+
+</main>
+</body>
+</html>

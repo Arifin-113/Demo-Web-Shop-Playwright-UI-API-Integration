@@ -1,0 +1,28 @@
+# Node modules
+node_modules/
+
+# Playwright reports / results
+playwright-report/
+blob-report/
+test-results/
+/playwright/.cache/
+/playwright/.auth/
+
+# Editor / tool scratch
+.history/
+.playwright-mcp/
+.playwright-cli/
+.probe/
+
+# Claude Code per-user settings
+.claude/settings.local.json
+
+# Test-run logs (redirect captured runs into run-logs/, never the repo root)
+run-logs/*
+!run-logs/.gitkeep
+.run-*.log
+
+# Environment (secrets / local overrides)
+.env
+.env.local
+.env.*.local

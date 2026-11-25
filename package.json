@@ -1,0 +1,32 @@
+{
+  "name": "demowebshop-ui-api-integration",
+  "version": "1.0.0",
+  "description": "Playwright UI + API integration automation for Tricentis Demo Web Shop (https://demowebshop.tricentis.com/)",
+  "type": "module",
+  "scripts": {
+    "test": "playwright test",
+    "test:api": "playwright test --project=api",
+    "test:ui": "playwright test --project=ui",
+    "test:integration": "playwright test --project=integration",
+    "test:smoke": "playwright test --grep @smoke",
+    "test:headed": "playwright test --project=ui --project=integration --headed",
+    "test:list": "playwright test --list",
+    "report": "node scripts/open-latest-report.js"
+  },
+  "keywords": [
+    "playwright",
+    "demowebshop",
+    "pom",
+    "api",
+    "ui-api-integration"
+  ],
+  "author": "Arifin Mahmud",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20.19"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.64.1",
+    "dotenv": "^18.0.9"
+  }
+}

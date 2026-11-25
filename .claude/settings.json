@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx playwright test:*)",
+      "Bash(npx playwright show-report:*)",
+      "Bash(npx playwright show-trace:*)",
+      "Bash(npm run test:*)",
+      "Bash(npm test)",
+      "Bash(curl -s:*)"
+    ]
+  }
+}
